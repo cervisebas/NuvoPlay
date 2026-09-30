@@ -22,6 +22,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     predictiveBackGestureEnabled: true,
   },
   plugins: [
+    'expo-image',
+    'expo-status-bar',
     'expo-router',
     [
       'expo-splash-screen',

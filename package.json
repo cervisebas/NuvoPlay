@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
-    "@expo/ui": "~58.0.7",
-    "expo": "~58.0.0-preview.7",
-    "expo-image": "~58.0.6",
-    "expo-router": "~58.0.8",
-    "expo-splash-screen": "~58.0.1",
-    "expo-status-bar": "~58.0.1",
-    "expo-symbols": "~58.0.2",
-    "expo-system-ui": "~58.0.2",
+    "@expo/ui": "~58.0.9",
+    "expo": "~58.0.0",
+    "expo-image": "~58.0.8",
+    "expo-router": "~58.0.10",
+    "expo-splash-screen": "~58.0.2",
+    "expo-status-bar": "~58.0.2",
+    "expo-symbols": "~58.0.3",
+    "expo-system-ui": "~58.0.4",
     "react": "19.3.0",
-    "react-native": "0.88.0-rc.1",
+    "react-native": "0.88.0-rc.3",
     "react-native-gesture-handler": "~3.2.1",
     "react-native-reanimated": "4.7.0",
     "react-native-safe-area-context": "~5.9.1",
@@ -45,5 +45,6 @@
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" && prettier -c \"**/*.{js,jsx,ts,tsx,json}\"",
     "lint:fix": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix && prettier \"**/*.{js,jsx,ts,tsx,json}\" --write"
   },
-  "private": true
+  "private": true,
+  "packageManager": "pnpm@12.8.1+sha512.f64ba907507f5ceafe06c8d38e6052d0179444580ec1279ddd5bfc11cb48aa8a2644b66598e07e761da84872a9fc57d5f902b87fa49d024198d558612aabbe45"
 }
