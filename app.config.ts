@@ -1,18 +1,27 @@
 import { ConfigContext, ExpoConfig } from 'expo/config';
 
+const VERSION_APP = '1.0.0';
+const VERSION_CODE_IOS = 1;
+const VERSION_CODE_ANDROID = 1;
+const PACKAGE_NAME = 'com.nuvoplay';
+
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: 'NuvoPlay',
   slug: 'NuvoPlay',
-  version: '1.0.0',
+  version: VERSION_APP,
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   scheme: 'nuvoplay',
   userInterfaceStyle: 'automatic',
   ios: {
+    buildNumber: String(VERSION_CODE_IOS),
+    bundleIdentifier: PACKAGE_NAME,
     icon: './assets/expo.icon',
   },
   android: {
+    package: PACKAGE_NAME,
+    versionCode: VERSION_CODE_ANDROID,
     adaptiveIcon: {
       backgroundColor: '#E6F4FE',
       foregroundImage: './assets/images/android-icon-foreground.png',
@@ -24,7 +33,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   plugins: [
     'expo-image',
     'expo-status-bar',
-    'expo-router',
     [
       'expo-splash-screen',
       {
@@ -33,6 +41,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         imageWidth: 76,
       },
     ],
+    '@react-native-vector-icons/material-design-icons',
   ],
   experiments: {
     typedRoutes: true,

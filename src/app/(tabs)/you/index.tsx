@@ -1,3 +1,3 @@
-export default function YouPage() {
+export default function YouScreen() {
   return <></>;
 }
