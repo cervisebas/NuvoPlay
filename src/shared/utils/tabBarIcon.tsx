@@ -1,4 +1,3 @@
-import { NativeBottomTabIcon } from '@react-navigation/bottom-tabs/unstable';
 import {
   MaterialDesignIcons,
   MaterialDesignIconsIconName,
@@ -6,29 +5,27 @@ import {
 
 interface TabBarIconProps {
   focused: boolean;
+  color: string;
+  size: number;
 }
 
 export function tabBarIcon(
   icon: MaterialDesignIconsIconName,
   focusedIcon: MaterialDesignIconsIconName,
 ) {
-  const _iconImage = MaterialDesignIcons.getImageSourceSync(icon, 24);
-  const _focusedIconImage = MaterialDesignIcons.getImageSourceSync(
-    focusedIcon,
-    24,
-  );
-
-  return function (props: TabBarIconProps): NativeBottomTabIcon {
+  return function (props: TabBarIconProps) {
     if (props.focused) {
-      return {
-        type: 'image' as const,
-        source: _focusedIconImage,
-      };
+      return (
+        <MaterialDesignIcons
+          name={focusedIcon}
+          color={props.color}
+          size={props.size}
+        />
+      );
     }
 
-    return {
-      type: 'image' as const,
-      source: _iconImage,
-    };
+    return (
+      <MaterialDesignIcons name={icon} color={props.color} size={props.size} />
+    );
   };
 }

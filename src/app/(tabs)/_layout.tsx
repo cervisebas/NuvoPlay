@@ -1,34 +1,37 @@
 import {
-  createNativeBottomTabNavigator,
-  createNativeBottomTabScreen,
-} from '@react-navigation/bottom-tabs/unstable';
+  createBottomTabNavigator,
+  createBottomTabScreen,
+} from '@react-navigation/bottom-tabs';
 import LibraryScreen from './library';
 import SettingsScreen from './settings';
 import YouScreen from './you';
 import { createStaticNavigation } from '@react-navigation/native';
 import { tabBarIcon } from '@/shared/utils/tabBarIcon';
+import { BottomBar } from '@/features/bottom-bar';
 
-const MyTabs = createNativeBottomTabNavigator({
+const MyTabs = createBottomTabNavigator({
   initialRouteName: 'Library',
   screenOptions: {
     headerShown: false,
+    animation: 'shift',
   },
+  tabBar: (props) => <BottomBar {...props} />,
   screens: {
-    You: createNativeBottomTabScreen({
+    You: createBottomTabScreen({
       screen: YouScreen,
       options: {
         title: 'Para ti',
         tabBarIcon: tabBarIcon('face-man-outline', 'face-man'),
       },
     }),
-    Library: createNativeBottomTabScreen({
+    Library: createBottomTabScreen({
       screen: LibraryScreen,
       options: {
         title: 'Canciones',
         tabBarIcon: tabBarIcon('music-circle-outline', 'music-circle'),
       },
     }),
-    Settings: createNativeBottomTabScreen({
+    Settings: createBottomTabScreen({
       screen: SettingsScreen,
       options: {
         title: 'Configuración',

@@ -4,6 +4,8 @@ import {
 } from '@react-navigation/native-stack';
 import { BottomTabScreen } from './(stack)/BottomTabScreen';
 import { createStaticNavigation } from '@react-navigation/native';
+import { View } from 'react-native';
+import { MiniPlayer } from '@/features/miniplayer';
 
 const MyStack = createNativeStackNavigator({
   screenOptions: {
@@ -19,5 +21,11 @@ const MyStack = createNativeStackNavigator({
 const MyStackNavigation = createStaticNavigation(MyStack);
 
 export default function RootLayout() {
-  return <MyStackNavigation />;
+  return (
+    <View className={'flex-1 relative'}>
+      <MyStackNavigation />
+
+      <MiniPlayer />
+    </View>
+  );
 }

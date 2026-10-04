@@ -1,0 +1,136 @@
+import {
+  View as ViewNative,
+  ScrollView as ScrollViewNative,
+  FlatList as FlatListNative,
+} from 'react-native';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react';
+import {
+  FlatListProps,
+  ScrollViewProps,
+  StyleProp,
+  ViewProps,
+  ViewStyle,
+} from 'react-native';
+import useSafeArea, { SafeAreaResponse } from '../hooks/useSafeArea';
+import {
+  SafeAreaView,
+  SafeAreaViewProps,
+} from 'react-native-safe-area-context';
+
+type ExpandType = 'margin' | 'padding';
+type ExpandDisable = {
+  top?: boolean;
+  left?: boolean;
+  right?: boolean;
+  bottom?: boolean;
+};
+
+export interface SafeAreaCompsProps {
+  style?: StyleProp<ViewStyle>;
+  expandType?: ExpandType;
+  expandDisableTop?: boolean;
+  expandDisableLeft?: boolean;
+  expandDisableRight?: boolean;
+  expandDisableBottom?: boolean;
+  expandArea?: {
+    top?: number;
+    left?: number;
+    right?: number;
+    bottom?: number;
+
+    vertical?: number;
+    horizontal?: number;
+  };
+}
+
+function setExpandType(
+  safeArea: SafeAreaResponse,
+  expandDisable?: ExpandDisable,
+  expandType?: ExpandType,
+  expandArea?: SafeAreaCompsProps['expandArea'],
+) {
+  const top = (expandDisable?.top ? 0 : safeArea.top) + (expandArea?.top ?? 0);
+  const left =
+    (expandDisable?.left ? 0 : safeArea.left) + (expandArea?.left ?? 0);
+  const right =
+    (expandDisable?.right ? 0 : safeArea.right) + (expandArea?.right ?? 0);
+  const bottom =
+    (expandDisable?.bottom ? 0 : safeArea.bottom) + (expandArea?.bottom ?? 0);
+
+  if (!expandType || expandType === 'padding') {
+    return {
+      paddingTop: top,
+      paddingLeft: left,
+      paddingRight: right,
+      paddingBottom: bottom,
+    };
+  } else {
+    return {
+      marginTop: top,
+      marginLeft: left,
+      marginRight: right,
+      marginBottom: bottom,
+    };
+  }
+}
+
+function createComponent<T>(
+  Cmp: any,
+  propName = 'style',
+  notStyleArray = false,
+  defProps?: SafeAreaCompsProps,
+  defCmpProps?: T,
+) {
+  return React.memo(function (props: T & SafeAreaCompsProps) {
+    const safeArea = useSafeArea(
+      props.expandArea?.horizontal ?? defProps?.expandArea?.horizontal,
+      props.expandArea?.vertical ?? defProps?.expandArea?.vertical,
+    );
+    const safeProps = setExpandType(
+      safeArea,
+      {
+        top: props.expandDisableTop ?? defProps?.expandDisableTop,
+        left: props.expandDisableLeft ?? defProps?.expandDisableLeft,
+        right: props.expandDisableRight ?? defProps?.expandDisableRight,
+        bottom: props.expandDisableBottom ?? defProps?.expandDisableBottom,
+      },
+      props.expandType ?? defProps?.expandType,
+      props.expandArea ?? defProps?.expandArea,
+    );
+    const propStyle = !notStyleArray
+      ? {
+          [propName]: [safeProps, (props as any)[propName]],
+        }
+      : {
+          ...safeProps,
+          ...(props as any)[propName],
+        };
+
+    return <Cmp {...props} {...defCmpProps} {...propStyle} />;
+  });
+}
+
+// -------- Exports --------
+export default {
+  View: createComponent<ViewProps>(ViewNative),
+  SafeAreaView: createComponent<SafeAreaViewProps>(SafeAreaView),
+  ScrollView: createComponent<ScrollViewProps>(
+    ScrollViewNative,
+    'contentContainerStyle',
+    undefined,
+    {
+      expandDisableTop: true,
+      expandType: 'padding',
+      expandArea: {
+        horizontal: 12,
+        bottom: 16,
+      },
+    },
+  ),
+  FlatList: createComponent<FlatListProps<any>>(
+    FlatListNative,
+    'contentContainerStyle',
+  ),
+};
